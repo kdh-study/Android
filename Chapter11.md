@@ -11,10 +11,10 @@
   - [11.2.3.](#1123-이벤트-처리) 이벤트 처리
   
 [11.3.](#113-기타-유용한-뷰) 기타 유용한 뷰
-  - [11.3.1.](#1131-콤보박스-:-Spinner) 콤보박스 : Spinner
-  - [11.3.2.](#1132-텍스트-자동완성-:-AutoCompleteTextView) 텍스트 자동완성 : AutoCompleteTextView
-  - [11.3.3.](#1133-프로그레스바-:-ProgressBar) 프로그레스바 : ProgressBar
-  - [11.3.4.](#1134-값을-입력받는-프로그레스바-:-SeekBar) 값을 입력받는 프로그레스바 : SeekBar
+  - [11.3.1.](#1131-콤보박스-Spinner) 콤보박스 Spinner
+  - [11.3.2.](#1132-텍스트-자동완성-AutoCompleteTextView) 텍스트 자동완성 AutoCompleteTextView
+  - [11.3.3.](#1133-프로그레스바-ProgressBar) 프로그레스바 ProgressBar
+  - [11.3.4.](#1134-값을-입력받는-프로그레스바-SeekBar) 값을 입력받는 프로그레스바 SeekBar
 
 ## 11.1. Spannable
 ### 11.1.1. Spannable의 필요성
