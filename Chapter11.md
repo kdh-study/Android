@@ -3,7 +3,7 @@
 [11.1.](#111-spannable) Spannable
   - [11.1.1.](#1111-Spannable의-필요성) Spannable의 필요성
   - [11.1.2.](#1112-Spannable-적용) Spannable 적용
-  - [11.1.3.](#1113-fromHtml()-함수로-적용) fromHtml() 함수로 적용
+  - [11.1.3.](#1113-fromHtml-함수로-적용) fromHtml() 함수로 적용
   
 [11.2.](#112-WebView) WebView
   - [11.2.1.](#1121-WebView-활용) WebView 활용
@@ -94,7 +94,7 @@ builder.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 | StyleSpan | 스타일 적용 |
 | URLSpan | URL 링크 모양과 클릭 이벤트 적용 |
 
-### 11.1.3. fromHtml() 함수로 적용
+### 11.1.3. fromHtml 함수로 적용
 - Spannable 외에 다른 방법.
 - fromHtml() 함수를 이용해 HTML 태그로 표현하는 방법.
 - 내부적으로는 Spannable을 이용.
@@ -201,6 +201,11 @@ webView.addJavascriptInterface(new JavaScriptTest(), "android");
 다음은 자바스크립트 코드로 자바에서 "android"라는 이름으로 공개한 객체의 getChartData()라는 함수를 호출한 구문.
 ``` java
 var data = window.android.getChartData();
+```
+
+반대로 자바에서 자바스크립트 함수를 호출하려면 다음과 같이 loadUrl() 함수를 그대로 이용하되, URL 부분을 자바스크립트 함수 호출 URL로 넘기면 됩니다.
+``` java
+webView.loadUrl("javascript:lineChart()");
 ```
 
 ### 11.2.3. 이벤트 처리
