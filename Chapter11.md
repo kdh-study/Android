@@ -16,11 +16,9 @@
   - [11.3.3.](#1133-프로그레스바-ProgressBar) 프로그레스바 ProgressBar
   - [11.3.4.](#1134-값을-입력받는-프로그레스바-SeekBar) 값을 입력받는 프로그레스바 SeekBar
 
-
 ## 11.1. Spannable
 - 뷰가 아닌 문자열 데이터를 표현하기 위한 클래스들입니다.
 - TextView의 문자열 데이터를 Spannable 클래스를 이용해 얼마나 다양하게 표시할 수 있는지 보겠습니다.
-
 
 ### 11.1.1. Spannable의 필요성
 - 문자열 데이터뿐만 아니라, UI 정보까지 포함.
@@ -30,7 +28,6 @@
   - textStyle="bold", textColor="#FF000"
   - 뷰의 설정으로 UI를 조정하면 모든 문자열이 굵게, 붉은색으로 표시됨.
 - UI를 뷰의 설정으로 표현하지 않고, 데이터를 표현하는 정보가 담긴 데이터소를 가지고, 뷰는 그 정보를 참조해서 화면에 출력하는 방식이 필요.
-
 
 ### 11.1.2. Spannable 적용
 TextView가 Spannable을 참조해서 화면에 출력하려면 bufferType이라는 속성을 지정해야 합니다.
@@ -97,7 +94,6 @@ builder.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 | StyleSpan | 스타일 적용 |
 | URLSpan | URL 링크 모양과 클릭 이벤트 적용 |
 
-
 ### 11.1.3. fromHtml() 함수로 적용
 - Spannable 외에 다른 방법.
 - fromHtml() 함수를 이용해 HTML 태그로 표현하는 방법.
@@ -138,12 +134,10 @@ class MyImageGetter implements Html.ImageGetter {
 }
 ```
 
-
 ## 11.2. WebView
 - 앱에서 웹 페이지를 보여주는 내장 브라우저 역할.
 - 브라우저 능력을 가지고 있지만, URL 입력 바(Navigation Bar), 뒤로가기 등의 각종 버튼을 제공하지 않으며 화면에 HTML이 뜨는 영역만 제공하는 뷰.
 - 액티비티 화면을 구성할 때 화면 전체나 일부분을 HTML로 구성하기 위해 사용하는데요, 특히, 하이브리드 앱으로 개발할 때 핵심 기술입니다.
-
 
 ### 11.2.1. WebView 활용
 - 코드에서 HTML 파일을 명시해 주면 HTML 파일을 파싱하여 화면에 출력.
@@ -159,30 +153,59 @@ class MyImageGetter implements Html.ImageGetter {
 화면에 출력하기 위해 레이아웃 XML 파일에 WebView를 준비.
 ``` xml
 <WebView
-        android:id="@+id/webview"
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 ```
 
 이렇게 하면 화면에 WebView가 출력되는데, 위의 정보만으로는 화면에 아무것도 나오지 않고, 코드에서 URL을 지정해 주어야 합니다.
 ``` java
-WebSettings settings = webview.getSettings();
+WebSettings settings = webView.getSettings();
 // 자바스크립트를 가능하게 설정해 주어야 합니다.
 settings.setJavaScriptEnabled(true);
-webview.loadUrl("https://m.daum.net/");
+webView.loadUrl("https://m.daum.net/");
 ```
 
 다음은 앱 내부의 HTML 파일을 이용하는 방법입니다.
 - HTML 파일을 앱 내부에 둘려면 assets 폴더를 이용.
 - assets 폴더는 리소스 대상이 아닌 나머지 개발자 파일이 위치하는 곳이므로 HTML, CSS, JavaScript 파일 등을 이곳에 두면 됨.
 ``` java
-webview.loadUrl("file:///android_asset/text.html");
+webView.loadUrl("file:///android_asset/text.html");
 ```
 assets에 있는 파일도 loadUrl() 함수를 이용해 로딩할 수 있습니다.
 
 ### 11.2.2. 자바스크립트와 자바 연동
+WebView를 이용하다 보면 때때로 자바스크립트와 자바 코드를 연동해야 할 수도 있습니다.
+예를 들어, 차트는 자바스크립트에서 그리고 데이터는 자바 코드에 있는 경우.
+이때는 자바스크립트에서 자바의 함수를 호출해야 함, 반대로 자바에서 자바스크립트 함수를 호출할 때도 있습니다.
+
+다음은 자바스크립트에 공개할 자바 클래스를 정의한 예.
+``` java
+class JavaScriptTest {
+    // 호출할 함수에 @JavascriptInterface라는 어노테이션을 선언.
+    @JavascriptInterface
+    public String getChartData() {
+        StringBuffer buffer = new StringBuffer();
+        // ...
+        return buffer.toString();
+    }
+}
+```
+
+다음은 자바스크립트를 위한 클래스를 공개하는 코드.
+``` java
+// "android"라는 단어는 자바스크립트에서 공개한 객체를 이용할 때 이 객체명으로 이용.
+webView.addJavascriptInterface(new JavaScriptTest(), "android");
+```
+
+다음은 자바스크립트 코드로 자바에서 "android"라는 이름으로 공개한 객체의 getChartData()라는 함수를 호출한 구문.
+``` java
+var data = window.android.getChartData();
+```
 
 ### 11.2.3. 이벤트 처리
+
+
 ## 11.3. 기타 유용한 뷰
 ### 11.3.1. 콤보박스 Spinner
 ### 11.3.2. 텍스트 자동완성 AutoCompleteTextView
