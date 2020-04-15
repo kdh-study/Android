@@ -3,7 +3,7 @@
 [11.1.](#111-spannable) Spannable
   - [11.1.1.](#1111-Spannable의-필요성) Spannable의 필요성
   - [11.1.2.](#1112-Spannable-적용) Spannable 적용
-  - [11.1.3.](#1113-fromHtml()-함수로-적용) fromHtml() 함수로 적용
+  - [11.1.3.](#1113-fromHtml-함수로-적용) fromHtml() 함수로 적용
   
 [11.2.](#112-WebView) WebView
   - [11.2.1.](#1121-WebView-활용) WebView 활용
@@ -19,7 +19,7 @@
 ## 11.1. Spannable
 ### 11.1.1. Spannable의 필요성
 ### 11.1.2. Spannable 적용
-### 11.1.3. fromHtml() 함수로 적용
+### 11.1.3. fromHtml 함수로 적용
 ## 11.2. WebView
 ### 11.2.1. WebView 활용
 ### 11.2.2. 자바스크립트와 자바 연동
