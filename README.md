@@ -12,7 +12,8 @@
 - **11장 :** [다양한 뷰 활용](https://github.com/kdh-study/Android/blob/master/Chapter11.md)
 
 ### 스터디 링크 
-
-- 심병준: https://github.com/hotan486/android_study.git
-- 지휘찬: https://github.com/HwiChance/Android_Group_Study
-- 김동현: https://github.com/kdh-study/Android
+- 허브   : https://github.com/hotan486/android_study_
+- 심병준 : https://github.com/hotan486/android_study.git
+- 지휘찬 : https://github.com/HwiChance/Android_Group_Study
+- 김동현 : https://github.com/kdh-study/Android
+- 김동기 : https://github.com/kdkrkwhr/android
