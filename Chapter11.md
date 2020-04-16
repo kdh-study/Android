@@ -212,7 +212,32 @@ webView.loadUrl("javascript:lineChart()");
 
 
 ## 11.3. 기타 유용한 뷰
+
 ### 11.3.1. 콤보박스 Spinner
+- 여러 항목 중 하나를 사용자가 선택할 수 있게 제공하는 뷰.
+- 흔히 콤보박스라 불리는 뷰.
+``` xml
+<Spinner
+        android:id="@+id/spinner"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content" />
+```
+
+자바 코드에서 Adapter를 이용하여 완성하면 되는데, 항목을 문자열 하나로 구성한다면 ArrayAdapter를 이용하여 구성.
+``` java
+ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, datas);
+aa.setDropDownViewResource(android.R.layout.simple_spinner_item);
+spinner.setAdapter(aa);
+```
+펼침목록이 
+
+Spinner의 항목은 기본으로 펼침목록으로 보이지만, spinnerMode 속성을 이용하여 다이얼로그 형태로 보이게 설정할 수도 있음.
+``` xml
+webView.loadUrl("javascript:lineChart()");
+```
+
 ### 11.3.2. 텍스트 자동완성 AutoCompleteTextView
+
 ### 11.3.3. 프로그레스바 ProgressBar
+
 ### 11.3.4. 값을 입력받는 프로그레스바 SeekBar
