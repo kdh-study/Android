@@ -229,14 +229,27 @@ ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple
 aa.setDropDownViewResource(android.R.layout.simple_spinner_item);
 spinner.setAdapter(aa);
 ```
-펼침목록이 
+- 펼침목록이 화면에 뜰 때 펼침목록의 레이아웃을 조정할 수 있습니다.
+- 안드로이드 라이브러리에서 제공하는 펼침목록 레이아웃.
+  - simple_spinner_item.
+  - simple_spinner_dropdown_item.
+- 레이아웃을 setDropDownViewResource() 함수를 이용하여 적용 가능.
 
 Spinner의 항목은 기본으로 펼침목록으로 보이지만, spinnerMode 속성을 이용하여 다이얼로그 형태로 보이게 설정할 수도 있음.
 ``` xml
-webView.loadUrl("javascript:lineChart()");
+<Spinner
+        android:id="@+id/spinner"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:prompt="@string/spinner_prompt"
+        android:spinnerMode="dialog" />
 ```
+다이얼로그 타이틀은 prompt 속성으로 지정.
 
 ### 11.3.2. 텍스트 자동완성 AutoCompleteTextView
+EditText처럼 사용자에게 글을 
 
 ### 11.3.3. 프로그레스바 ProgressBar
 
