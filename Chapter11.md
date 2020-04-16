@@ -276,6 +276,41 @@ autoCompleteTextView.setAdapter(autoAdapter);
 - 스타일.
   - 원 모양 : 작업의 시작과 끝을 정확하게 알 수 없을 때.
   - 막대 모양 : 작업의 시작과 끝을 정확하게 알 때.
+``` xml
+<ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+```
 
+막대 모양은 style 속성을 이용.
+``` xml
+<ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal 
+        android:max="100"/>
+```
+
+스레드 등을 이용하여 ProgressBar에 값을 표시할 수 있는데, 다음과 같은 함수를 사용.
+- setProgress(int progress) : 매개변수로 ProgressBar의 값을 지정할 때 사용.
+- incrementProgressBy(int diff) : 매개변수 값을 현재 값에서 더하거나 뺄 때 사용.
+``` java
+class ProgressThread extends Thread {
+    @Override
+    public void run() {
+        for (int i = 0; i < 10; i++) {
+            SystemClock.sleep(1000);
+            progressBar.incrementProgressBy(10);
+        }
+    }
+}
+```
+
+하나의 ProgressBar에 두 가지 값을 동시에 표현할 수 있는데, 이를 secondaryProgress라고 표현.
+- setSecondaryProgress(int secondaryProgress)
+- incrementSecondaryProgressBy(int diff)
 
 ### 11.3.4. 값을 입력받는 프로그레스바 SeekBar
