@@ -271,5 +271,11 @@ autoCompleteTextView.setAdapter(autoAdapter);
 | android:dropDownHorizontalOffset="100dp" | 펼침목록과 AutoCompleteTextView 가로 방향 오프셋 크기 |
 
 ### 11.3.3. 프로그레스바 ProgressBar
+- 사용자에게 일의 진행 정도를 표시하기 위한 뷰.
+- 파일 다운로드 등 시간이 걸리는 일을 처리할 때 사용자에게 작업 중이라는 걸 표현하기 위해 사용.
+- 스타일.
+  - 원 모양 : 작업의 시작과 끝을 정확하게 알 수 없을 때.
+  - 막대 모양 : 작업의 시작과 끝을 정확하게 알 때.
+
 
 ### 11.3.4. 값을 입력받는 프로그레스바 SeekBar
