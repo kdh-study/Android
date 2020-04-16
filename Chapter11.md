@@ -249,7 +249,26 @@ Spinner의 항목은 기본으로 펼침목록으로 보이지만, spinnerMode �
 다이얼로그 타이틀은 prompt 속성으로 지정.
 
 ### 11.3.2. 텍스트 자동완성 AutoCompleteTextView
-EditText처럼 사용자에게 글을 
+- EditText처럼 사용자에게 글을 입력받는 뷰.
+- 더하여 글 입력을 위한 추천 단어를 보여주고 그중 하나를 선택하여 입력할 수 있게 도와줍니다.
+- 추천 단어를 항목으로 나열한다는 점에서 AdapterView의 일종이며 Adapter 클래스를 이용하여 완성합니다.
+- Adapter를 활용하여 AutoCompleteTextView를 완성합니다.
+``` java
+// 항목 나열이 문자열로 구성되어 한 항목에 하나의 문자열만 있으면 되므로 ArrayAdapter를 이용.
+ArrayAdapter<String> autoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, autoDatas);
+autoCompleteTextView.setAdapter(autoAdapter);
+```
+코드로 문자열을 필터링하는 게 아니라, 전체 문자열을 주면 알아서 사용자 입력 글을 포함하는 문자열을 출력해 줍니다.
+
+설정할 수 있는 속성은 다음과 같습니다.
+속성 | 의미
+| --- | --- |
+| android:completionThreshold="1" | 자동완성을 위한 펼침목록이 한 글자 입력되었을 때 보인다, 기본은 두 글자. |
+| android:completionHint="항목을 선택하세요." | 펼침목록 아래에 설명 글 |
+| android:dropDownWidth="200dp" | 펼침목록의 가로 크기 |
+| android:dropDownHeight="100dp" | 펼침목록의 세로 크기 |
+| android:dropDownVerticalOffset="100dp" | 펼침목록과 AutoCompleteTextView 세로 방향 오프셋 크기 |
+| android:dropDownHorizontalOffset="100dp" | 펼침목록과 AutoCompleteTextView 가로 방향 오프셋 크기 |
 
 ### 11.3.3. 프로그레스바 ProgressBar
 
