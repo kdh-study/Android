@@ -1,9 +1,8 @@
 # 11장 다양한 뷰 활용
 ## 목차
-[11.1.](#111-spannable) Spannable
-  - [11.1.1.](#1111-Spannable의-필요성) Spannable의 필요성
-  - [11.1.2.](#1112-Spannable-적용) Spannable 적용
-  - [11.1.3.](#1113-fromHtml-함수로-적용) fromHtml() 함수로 적용
+[12.1.](#111-ActionBar) ActionBar
+  - [12.1.1.](#1111-ActionBar-구성) ActionBar 구성
+  - [12.1.2.](#1112-표시-옵션) 표시 옵션
   
 [11.2.](#112-WebView) WebView
   - [11.2.1.](#1121-WebView-활용) WebView 활용
@@ -16,10 +15,9 @@
   - [11.3.3.](#1133-프로그레스바-ProgressBar) 프로그레스바 ProgressBar
   - [11.3.4.](#1134-값을-입력받는-프로그레스바-SeekBar) 값을 입력받는 프로그레스바 SeekBar
 
-## 11.1. Spannable
-### 11.1.1. Spannable의 필요성
-### 11.1.2. Spannable 적용
-### 11.1.3. fromHtml 함수로 적용
+## 11.1. ActionBar
+### 11.1.1. ActionBar 구성
+### 11.1.2. 표시 옵션
 ## 11.2. WebView
 ### 11.2.1. WebView 활용
 ### 11.2.2. 자바스크립트와 자바 연동
