@@ -11,6 +11,9 @@
 ### Week 4 (04/16)
 - **11장 :** [다양한 뷰 활용](https://github.com/kdh-study/Android/blob/master/Chapter11.md)
 
+### Week 5 (04/22)
+- **12장 :** [ActionBar와 메뉴](https://github.com/kdh-study/Android/blob/master/Chapter12.md)
+
 ### 스터디 링크 
 - 허브   : https://github.com/hotan486/android_study_
 - 심병준 : https://github.com/hotan486/android_study.git
