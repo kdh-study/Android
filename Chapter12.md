@@ -11,6 +11,7 @@
   - [12.3.2.](#1232-MenuInflater-활용) MenuInflater 활용
   - [12.3.3.](#1233-메뉴-다양하게-이용하기) 메뉴 다양하게 이용하기
 
+
 ## 12.1. ActionBar
 - API Level 11 버전부터 추가된 개념.
 - 간단하게 이해한다면 능력이 많은 타이틀 바.
@@ -146,9 +147,28 @@ dependencies {
 
 appcompat 라이브러리의 도움을 받아 작성하면 몇 가지 지켜야 하는 규칙이 있음.
 - 액티비티를 위한 테마 설정이 appcompat에서 제공하는 테마를 상속받아 정의해야 함.
+- ActionBar를 획득할 때 getActionBar()가 아닌 getSupportActionBar() 함수를 이용해야 함.
+
+개발자 코드로 버전 확인.
+- Support 라이브러리가 모든 하위 호환성을 제공한다고 볼 수는 없음.
+- 때로는 개발자 코드에서 API Level을 체크해서 분기 처리해야 함.
+```java
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    // ...
+}
+else {
+    // ...
+}
+```
 
 
 ## 12.3. 메뉴
+- 액티비티의 선택적 구성 요소.
+- 액티비티가 출력될 창을 Window라고 부르며 Window는 상단의 ActionBar와 하단의 Content 구성.
+- 메뉴를 추가하더라도 Activity Content 영역에 표시되지 않고 ActionBar에 포함되어 표시됨.
+
 ### 12.3.1. 메뉴 작성 방법
+- 자바 코드로 작성하는 방법과 XML 파일을 이용하는 두 가지 방법이 있음.
+
 ### 12.3.2. MenuInflater 활용
 ### 12.3.3. 메뉴 다양하게 이용하기
