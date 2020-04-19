@@ -209,7 +209,31 @@ webView.loadUrl("javascript:lineChart()");
 ```
 
 ### 11.2.3. 이벤트 처리
-
+- 때때로 WebView 자바스크립트 이벤트를 자바에서 처리해야 할 때가 있음.
+- WebViewClient를 상속받는 이벤트 핸들러를 정의해 주면 됨.
+- WebViewClient에서 제공하는 다양한 사용자 이벤트 콜백 함수 중 원하는 것을 재정의.
+``` java
+class MyWebClient extends WebViewClient {
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        // ...
+        return true;
+    }
+}
+```
+- 어떤 경우에는 사용자 이벤트 이외에 브라우저 자체 이벤트를 처리해야 할 때도 있음.
+- 다음 코드는 브라우저에서 알림 창이 뜨는 순간을 처리한 코드.
+``` java
+class MyWebClient extends WebViewClient {
+    @Override
+    public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+        // ...
+        // confirm 함수를 이용하여 알림 창이 뜨지 않게 할 수도 있음.
+        result.confirm();
+        return true;
+    }
+}
+```
 
 ## 11.3. 기타 유용한 뷰
 
