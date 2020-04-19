@@ -110,6 +110,42 @@ public boolean onOptionsItemSelected(MenuItem item) {
 
 
 ## 12.2. 안드로이드 API Level과 하위 호환성
+- 앞에서 ActionBar를 설명했는데, ActionBar는 API Level 11부터 제공하는 클래스로 하위 호환성 문제가 발생할 수 있음.
+- API 하위 호환성과 관련된 문제는 ActionBar만의 문제가 아니므로 잘 정리해야 할 필요가 있음.
+- minSdkVersion이라는 개념이 있는데, 이 설정은 아주 중요.
+- minSdkVersion으로 설정된 하위 버전의 스마트폰에는 우리의 앱이 설치되지 않음.
+- minSdkVersion을 9로 설정했다면 9버전까지는 에러가 발생하지 않게 신경 써 주어야 함, 이것이 하위 호환성이라고 함.
+
+하위 버전에서 에러가 발생하지 않게 개발할 수 있는 방법.
+- 구글의 Support 라이브러리의 도움을 받는다.
+- 오픈소스 라이브러리의 도움을 받는다.
+- 개발자 코드에서 버전을 직접 식별해서 처리한다.
+여기서는 구글의 Support 라이브러리에 대한 소개와 개발자 코드에서 버전을 식별하는 방법을 소개하겠음.
+
+
+Support라이브러리 이용.
+- 표준 라이브러리 아니고, 구글의 라이브러리.
+- 목적은 하위 호환성을 지원하기 위함.
+안드로이드 표준 라이브러리 이외의 모든 라이브러리는 그레이들 파일에 dependencies 연결해야만 사용할 수 있음.
+```java
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+```
+- appcompat가 자동으로 추가되어 있는데, 이것이 support 라이브러리를 이용할 수 있게 함.
+- ActionBar의 하위 호환성 문제 같은 경우, appcompat 라이브러리의 AppCompatActivity를 활용해 처리할 수 있음.
+- 지금까지 만들었던 모든 액티비티의 선언을 보면 AppCompatActivity가 상속받아 만들어졌음.
+- AppCompatActivity는 Activity의 서브 클래스이며 appcompat 라이브러리에서 제공하는 클래스.
+- 결과적으로 AppCompat Activity가 액티비티의 ActionBar 하위 호환성을 처리해 준다고 보면 됨.
+
+appcompat 라이브러리의 도움을 받아 작성하면 몇 가지 지켜야 하는 규칙이 있음.
+- 액티비티를 위한 테마 설정이 appcompat에서 제공하는 테마를 상속받아 정의해야 함.
 
 
 ## 12.3. 메뉴
