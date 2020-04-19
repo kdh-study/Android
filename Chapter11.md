@@ -314,3 +314,47 @@ class ProgressThread extends Thread {
 - incrementSecondaryProgressBy(int diff)
 
 ### 11.3.4. 값을 입력받는 프로그레스바 SeekBar
+- SeekBar는 ProgressBar의 서브 클래스.
+- ProgressBar처럼 값을 막대 모양으로 출력한다는 점에서는 동일하지만, 사용자로부터 값을 입력받을 수 있음.
+- ProgressBar는 사용자에게 진행 상황 등의 값을 보여주는 용도, SeekBar는 사용자에게 값을 입력받는 용도.
+``` xml
+<SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50" />
+```
+- max 값으로 나타낼 수 있는 최대값을 표현.
+- 초기 화면에 나타나는 값을 progress 속성으로 지정.
+
+사용자에게 값을 입력받는 뷰이므로 이벤트 처리를 통해 사용자가 입력한 값을 획득하는 게 중요.
+``` java
+// OnSeekBarChangeListener 활용.
+seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        // 사용자가 터치해서 값을 조정하면 반복해서 호출됨.
+    }
+    
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // 사용자가 막대를 터치하면 호출됨.
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // 사용자가 터치를 떼는 순간 호출됨.
+    }
+});
+```
+또한, 현재 지점을 나타내는 스타일은 원 모양이 기본인데, thumb 속성을 이용해 개발자가 특정 이미지로 바꿀 수 있음.
+``` xml
+<SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50"
+        android:thumb="@drawable/ic_seek" />
+```
