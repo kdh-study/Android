@@ -169,6 +169,87 @@ else {
 
 ### 12.3.1. 메뉴 작성 방법
 - 자바 코드로 작성하는 방법과 XML 파일을 이용하는 두 가지 방법이 있음.
+함수 | 의미
+| --- | --- |
+| onCreateOptionsMenu | 메뉴가 만들어질 때 최초 한 번 호출 |
+| onPrepareOptionsMenu | 메뉴가 화면에 보일 때마다 반복 호출 |
+메뉴가 고정이면 한 번만 작업하면 되므로 onCreateOptionsMenu 함수를 이용하고, 메뉴를 상황에 따라 다르게 구성해야 한다면 onPrepareOptionsMenu 함수를 이용합니다.
+```java
+@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item1 = menu.add(0, 0, 0, "슬라이드쇼");
+        return true;
+    }
+```
+두 함수 모두 매개변수로 Menu 객체가 넘어오고 이 객체에 메뉴를 넣으면 됩니다. 이때 다음과 같은 add() 함수를 사용.
+- add(CharSequence title)
+- add(int groupId, int itemId, int order, int titleRes)
+- add(int groupId, int itemId, int order, CharSequence title)
+itemId는 메뉴의 식별자.
+
+
+액티비티에 메뉴를 추가하면 ActionBar 오른쪽에 메뉴가 있다는 표시로 오버플로 아이콘이 나타남.
+
+아이콘을 클릭해서 나오는 것을 오버플로 메뉴라고 부릅니다.
+
+다음은 MenuItem의 메뉴 구성을 위한 함수들입니다.
+- setIcon(int iconRes)
+- setShortcut(char numricChar, char alphaChar)
+- setTitle(CharSequence title)
+- setVisible(boolean visible)
+- setEnabled(boolean enabled)
+위 함수를 이용하여 메뉴를 다양하게 구성 가능, 아이콘 이미지 문자열, 화면에 보이는 상태와 활성 상태 등을 조정 가능.
+
+사용자가 메뉴를 클릭했을 때 이벤트 처리는 onOptionsItemSelected() 함수에서 처리.
+```java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == 0) {
+            
+    }
+    return super.onContextItemSelected(item);
+}
+```
+메뉴가 선택된 순간 자동 호출되며 매개변수로 선택한 메뉴 객체가 전달됨.
 
 ### 12.3.2. MenuInflater 활용
+- 액티비티가 실행될 때마다 다르지 않고 항상 똑같다면 코드에서 작업하지 않고 리소스 XML을 이용하여 메뉴를 구현하는 방법도 있습니다. 
+- XML을 만들고 리소스화해서 메뉴를 구현하는 방법입니다.
+- 메뉴 XML 파일이 저장될 위치는 res 폴더 하위의 menu 폴더입니다.
+```xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item 
+        android:id="@+id/menu1" 
+        android:title="선택..."/>
+    <item 
+        android:id="@+id/menu2"
+        android:title="레이아웃" />
+</menu>
+```
+자바코드에서 작성했던 메뉴 구성을 XML로 작성. 액티비티에 메뉴를 적용하려면 자바 코드에서 MenuInflater를 이용.
+```java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.game_menu, menu);
+    return true;
+}
+```
+item 태그에 메뉴를 식별하기 위한 id 값을 R 파일을 통해 등록하게 되며, 자바 코드에서 메뉴를 식별할 때 R 파일의 int 변수로 식별해서 이벤트 처리하면 됨.
+```java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.menu1) {
+            
+    }
+    return super.onContextItemSelected(item);
+}
+```
+
 ### 12.3.3. 메뉴 다양하게 이용하기
+아이콘 출력.
+서브 메뉴.
+액션 버튼.
+ActionView.
+actionLayout.
+ContextMenu.
