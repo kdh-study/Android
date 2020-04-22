@@ -248,6 +248,10 @@ public boolean onOptionsItemSelected(MenuItem item) {
 
 ### 12.3.3. 메뉴 다양하게 이용하기
 아이콘 출력.
+- 메뉴에 아이콘 이미지와 함께 나오게 할 때도 있음.
+- 그런데 자바 코드나 XML에 명시하였더라도 화면에 출력되지는 않음.
+- 아이콘을 명시하고 싶으면 다음의 코드처럼 android:icon 속성을 이용.
+
 서브 메뉴.
 액션 버튼.
 ActionView.
