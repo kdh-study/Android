@@ -20,3 +20,8 @@
 - [지휘찬](https://github.com/HwiChance/Android_Group_Study)
 - [김동현](https://github.com/kdh-study/Android)
 - [김동기](https://github.com/kdkrkwhr/android)
+
+11장. 다양한 뷰 활용
+12장. ActionBar와 메뉴
+14장. Intent와 구글 기본 앱 연동
+16장. 스레드와 핸들러
