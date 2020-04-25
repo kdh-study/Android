@@ -339,13 +339,53 @@ ActionView.
 - ActionView는 ActionBar에 제공되는 뷰.
 - 개발자가 직접 준비하지 않고, ActionBar에서 제공하는 뷰를 그대로 이용.
 - 대표적인 ActionView는 SearchView.
+- SearchView는 위의 그림처럼 ActionBar에 돋보기 아이콘이 나와서 일반적인 액션 버튼처럼 보입니다.
+- 그런데 아이콘을 클릭하면 글을 입력하기 위한 뷰가 ActionBar 영역에 확장됩니다. 글 입력을 위한 SearchView가 ActionBar 영역에 출력되는 거죠.
+```xml
+<item android:id="@+id/menu_main_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always"
+        android:title="Search" />
+```
+책에서는 support.v7.widget으로 접근하는데, support 라이브러리 이름이 안드로이드 10 버전부터 위와 같이 변경됨.
 
-SearchView는 위의 그림처럼 ActionBar에 돋보기 아이콘이 나와서 일반적인 액션 버튼처럼 보입니다.
-그런데 아이콘을 클릭하면 글을 입력하기 위한 뷰가 ActionBar 영역에 확장됩니다. 글 입력을 위한 SearchView가 ActionBar 영역에 출력되는 거죠.
+검색 작업을 진행하려면 SearchView 객체를 자바 코드에서 획득해 이용.
+```java
+@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.menu_main_search);
+        SearchView searchView = (SearchView)menuItem.getActionView();
+        searchView.setQueryHint(getResources().getString(R.string.query_hint));
+        searchView.setOnQueryTextListener(queryTextListener);
+        return true;
+    }
+```
+```java
+// 사용자 검색 이벤트 핸들러
+    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        // 키보드에서 검색 버튼이 눌린 순간의 이벤트
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+
+        // 검색 글이 한 자 한 자 입력 순간마다.
+        @Override
+        public boolean onQueryTextChange(String newText)
+        {
+            return false;
+        }
+    };
+```
+
+
 
 actionLayout.
-앞에서 살펴본 SearchView는 ActionBar에서 제공하는 ActionView인데 개발자가 임의의 뷰를 ActionView로 설정할 수도 있습니다.
+- 앞에서 살펴본 SearchView는 ActionBar에서 제공하는 ActionView인데 개발자가 임의의 뷰를 ActionView로 설정할 수도 있습니다.
 
 ContextMenu.
-메뉴 중 ContextMenu라는 독특한 메뉴가 있습니다.
+- 메뉴 중 ContextMenu라는 독특한 메뉴가 있습니다.
 
