@@ -251,9 +251,101 @@ public boolean onOptionsItemSelected(MenuItem item) {
 - 메뉴에 아이콘 이미지와 함께 나오게 할 때도 있음.
 - 그런데 자바 코드나 XML에 명시하였더라도 화면에 출력되지는 않음.
 - 아이콘을 명시하고 싶으면 다음의 코드처럼 android:icon 속성을 이용.
+하지만 화면에 출력될 때는 아이콘이 나오지 않습니다.
+```xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/new_game"
+    android:icon="@drawable/ic_menu_1"
+    android:title="A"/>
+```
+- 아이콘이나오게하는방법은두가지인데, 11장에서 살펴보았던 문자열 Spannable정보를 이용하는 방법.
+  - 메뉴 문자열 데이터에 ImageSpan을 추가해서 아이콘 이미지가 함께 출력되게 하는 방법.
+- 메뉴를 만들어 주는 MenuBuilder 속성을 변경하는 방법.
+  - setOptionalIconsVisible() 함수를 이용.
+Spannable은 11장에서 살펴보았으므로 setOptionalIconsVisible()함수를 이용하는 방법만 살펴보겠습니다.
+```java
+public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+        try {
+            Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+            method.setAccessible(true);
+            method.invoke(menu, true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+```
+- 메뉴를 구성하는 onCreateOptionsMenu()함수에서 setOptionalIconsVisible()함수를 이용하여 값을 true로 설정하면 아이콘이 표시된다.
+- setOptionalIconsVisible() 함수는 MenuBuilder의 함수인데, 직접 호출하면 같은 라이브러리 그룹에서만 호출할 수 있다고 경고가 발생, 그러므로 위의 코드처럼 함수명을 이용하여 Method 객체를 획득하여 호출.
 
 서브 메뉴.
+- 메뉴를 구성하다 보면 특정 메뉴의 서브 메뉴를 제공해야 할 때가 있습니다.
+- 이때 메뉴 XML 파일에 <menu> 태그를 중복해서 정의할 수 있습니다.
+```xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/new_game"
+        android:title="메뉴"/>
+    <item
+        android:id="@+id/help"
+        android:title="서브메뉴" >
+        <menu>
+            <item android:id="@+id/sub1"
+                android:title="A"/>
+            <item android:id="@+id/sub2"
+                android:title="B"/>
+        </menu>
+    </item>
+</menu>  
+```
+  
 액션 버튼.
+- 앞서살펴보았던 메뉴는 오버플로 아이콘을 클릭해야 화면에 나타납니다.
+- 자주 이용되는 메뉴라면 ActionBar에 아이콘으로 올려서 바로 사용자가 클릭할 수 있게 할 수 있습니다.
+- <item> 태그의 app:showAsAction 속성을 사용하면 액션 버튼로 나올지가 결정됩니다.
+```xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu4" 
+        android:title="Action" 
+        app:showAsAction="always"/>
+</menu>
+```
+값 | 의미
+| --- | --- |
+| never | 기본값, showAsAction을 선언하지 않은 경우, 항상 오버플로 메뉴로 구성. |
+| always | 항상 액션 버튼으로 구성. |
+| ifRoom | ActionBar에 아이콘이 올라갈 공간이 있으면 액션 버튼으로 나타내고, 그렇지 않으면 오버플로 메뉴로 나타남. |
+| withText | 아이콘과 더불어 문자열이 함께 보이게 하는 설정이지만 문자열이 나타날 공간이 없다면 문자열이 나타나지 않음, 대부분 스마트폰에서는 문자열이 함께 출력되지 않음. |
+중요한 건 속성을 정의할 때 app:showAsAction이라고 선언한 부분, XML 속성에서 콜론을 기준으로 오른쪽에 속성명이고 왼쪽이 네임스페이스 명입니다.
+- 왜 android: 가 아니라 app:이냐면 버전 변화와 하위 호환성 때문.
+- ActionBar, ActionButton이 추가된 API Level은 11.
+- 자세한 내용은 12장 참고, appcompat, AppCompatActivity와 관계 있음.
+  
+위에서 app:showAsAction 속성을 추가하기 위해 네임스페이스를 'xmlns:app="http://schemas.android.com/apk/res-auto'로 선언했는데, 표준 네임스페이스가 아닌 별도 네임스페이스는 꼭 http://schemas.android.com/apk/res-auto URL로 선언해야 함, 네임스페이스명은 개발자가 임의로 작성.
+- 정리하자면 app:showAsAction은 app이라는 네임스페이스에서 선언한 속성이라는 의미.
+- 표준 라이브러리 클래스가 아닌 다른 클래스에서 처리되는 속성.
+- 네임스페이스를 별도로 선언해서 처리해야 하는 경우는 메뉴 부분이 아니더라도 앞으로 자주 나올 것, 예외적인 처리 방식의이유는 모두 같음.
+
 ActionView.
+- 메뉴로 구성할 수 있는 것 중 유용하게 사용할 수 있는 ActionView가 있습니다.
+- ActionView는 ActionBar에 제공되는 뷰.
+- 개발자가 직접 준비하지 않고, ActionBar에서 제공하는 뷰를 그대로 이용.
+- 대표적인 ActionView는 SearchView.
+
+SearchView는 위의 그림처럼 ActionBar에 돋보기 아이콘이 나와서 일반적인 액션 버튼처럼 보입니다.
+그런데 아이콘을 클릭하면 글을 입력하기 위한 뷰가 ActionBar 영역에 확장됩니다. 글 입력을 위한 SearchView가 ActionBar 영역에 출력되는 거죠.
+
 actionLayout.
+앞에서 살펴본 SearchView는 ActionBar에서 제공하는 ActionView인데 개발자가 임의의 뷰를 ActionView로 설정할 수도 있습니다.
+
 ContextMenu.
+메뉴 중 ContextMenu라는 독특한 메뉴가 있습니다.
+
