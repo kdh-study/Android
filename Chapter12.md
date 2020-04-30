@@ -388,4 +388,5 @@ actionLayout.
 
 ContextMenu.
 - 메뉴 중 ContextMenu라는 독특한 메뉴가 있습니다.
-
+- 일반 메뉴처럼 ActionBar에 표시되는 메뉴가 아니라 화면에 출력되는 특정 뷰와 연결되어서 뷰를 오래 누르면 보이는 메뉴.
+- onCreateContextMenu() 함수를 이용.
