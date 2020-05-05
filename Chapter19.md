@@ -20,7 +20,41 @@
 - 작성 방법도 중요하지만, 내부 수행 원리를 이해하는 것도 중요.
 
 ### 19.1.1. 브로드캐스트 리시버 이해
+- 실제 개발하다 보면 4개의 컴포넌트 중 가장 비번하게 이용.
+- 앱 내에서 브로드캐스트 리시버를 작성하거나 실행도 많이 하며, 특히 시스템의 특정 상황을 대부분 브로드캐스트 리시버로 알려줍니다.
+
 ### 19.1.2. 브로드캐스트 리시버 작성 방법
+- 브로드캐스트 리시버는 BroadcastReceiver를 상속받아 작성하는 클래스.
+- 클래스 내에 onReceive()라는 함수만 정의해 주면 됨.
+- 브로드캐스트 리시버가 인텐트로 인해 수행될 때 자동으로 호출되는 함수.
+
+```java
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+```
+
+- 컴포넌트 클래스이므로 AndroidManifest.xml 파일에 <receiver> 태크로 등록.
+- <activity>와 마찬가지로 암시적 인텐트에 의해 실행되어야 한다면, <intent-filter>를 사용 가능.
+```xml
+<receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
+```
+
+- sendBroadcast() 함수로 실행.
+- 인텐트 부분은 다른 컴포넌트와 같음, putExtra() 함수를 이용하여 데이터를 넘길 수도 있음.
+```java
+Intent intent = new Intent(this, MyReceiver.class);
+sendBroadcast(intent);
+```
+
 ### 19.1.3. 시스템 브로드캐스트 인텐트
 ### 19.1.4. 백그라운드 서비스 제한
 ## 19.2. 알림
