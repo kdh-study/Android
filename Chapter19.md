@@ -56,9 +56,45 @@ sendBroadcast(intent);
 ```
 
 ### 19.1.3. 시스템 브로드캐스트 인텐트
+- 브로드캐스트 리시버는 앱 내부에서 사용하려고 자주 만들지만 시스템에서 실행하는 인텐트에 반응하여 각종 시스템 상황을 감지하려고도 자주 사용.
+- 시스템에서 많은 브로드캐스트 리시버 인텐트를 발생시키는데, 이곳에서는 자주 이용되는 몇 가지를 살펴보겠음.
+
+#### 부팅 완료
+- 스마트폰의 부팅 완료 시점에 앱이 동작하여 간단한 업무를 수행하거나 서비스 등을 구동해야 할 때가 있음.
+- 부팅 완료 시점에 시스템에서 발생시키는 브로드캐스트 인텐트에 반응할 브로드캐스트리시버만 정의해주면 쉽게 구현할 수 있습니다.
+
+```xml
+<receiver 
+            android:name=".MyReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+```
+- 시스템에서 띄우는 인텐트의 Action 문자열과 같은 문자열로 intent-filter를 구성하여 등록.
+
+```xml
+<user-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+```
+- 부팅 완료 시점에 브로드캐스트 리시버가 동작하게 하려면 퍼미션이 등록되어 있어야 함.
+
+#### 화면 On/Off
+- 사용자
+
+#### 전화 수신/발신
+- 사용자
+
+#### 배터리
+- 사용자
+
 ### 19.1.4. 백그라운드 서비스 제한
+
 ## 19.2. 알림
+
 ### 19.2.1. 알림의 기본 구성
+
 ### 19.2.2. NotificationChannel
+
 ### 19.2.3. 기본적인 알림 구성
+
 ### 19.2.4. 알림의 다양한 구성
