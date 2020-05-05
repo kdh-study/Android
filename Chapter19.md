@@ -79,7 +79,32 @@ sendBroadcast(intent);
 - 부팅 완료 시점에 브로드캐스트 리시버가 동작하게 하려면 퍼미션이 등록되어 있어야 함.
 
 #### 화면 On/Off
-- 사용자
+- 사용자 스마트폰의 화면이 On/Off 되는 상황은 빈번하며 개발 시 이 상황을 체크해서 특정 로직의 수행을 구동하거나 정지해야 하는 경우도 많음.
+- 화면이 On/Off되는 상황에 시스템에서 브로드캐스트 인텐트를 발생해 주며 앱에서 브로드캐스트 리시버를 이용하여 이 상황을 감지할 수 있음.
+- 다른 브로드캐스트 리시버와 다르게 AndroidManifest.xml 파일에 <receiver> 태그로 등록하면 실행되지 않습니다.
+- 액티비티, 서비스 등의 코드에서 동적으로 등록해야만 실행됩니다.
+
+```java
+BroadcastReceiver brOn = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d("kkang", "screen on...");
+    }
+};
+```
+- 액티비티나 서비스 클래스 내부의 코드로 보면 됩니다.
+- 자바 코드에서 브로드캐스트 리시버를 정의한 후 registerReceiver() 함수로 시스템에 등록하면 됩니다.
+
+```java
+registerReceiver(brOn, new IntentFilter(Intent.ACTION_SCREEN_ON));
+```
+- 시스템에서 띄우는 인텐트의 Action 문자열은 android.intent.action.SCREEN_ON, android.intent.action.SCREEN_OFF.
+- IntentFilter 객체를 만들어 registerReceiver() 함수로 동적 등록.
+
+```java
+unregisterReceiver(brOn);
+```
+- 동적으로 해제.
 
 #### 전화 수신/발신
 - 사용자
