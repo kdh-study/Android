@@ -116,7 +116,7 @@ unregisterReceiver(brOn);
         <user-permission android:name="android.permission.READ_PHONE_STATE"/>
 ```
 - 각각 발신, 수신을 감지하는 퍼미션.
-
+***
 ```xml
 <receiver android:name=".MyReceiver">
             <intent-filter>
@@ -127,7 +127,7 @@ unregisterReceiver(brOn);
 ```
 - 발신 상황이 발생하면 시스템에서 android.intent.action.NEW_OUTGOING_CALL이라는 action 문자열로 브로드캐스트 인텐트를 발생해 줍니다.
 - 수신 상황이 발생하면 시스템에서 android.intent.action.PHONE_STATE라는 action 문자열로 브로드캐스트 인텐트를 발생해 줍니다.
-
+***
 ```java
 if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
             String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
@@ -141,10 +141,10 @@ if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
 - 발신 전화번호는 intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)로 얻을 수 있음.
 - 수신 전화번호는 Bundle 객체를 통해 얻을 수 있음.
 
-
-
 #### 배터리
-- 사용자
+- 스마트폰에 USB 케이블 등으로 전원이 공급되고 있는 상황과 전원 공급이 끊어진 상황 등을 앱에서 인지해야 할 때도 있습니다.
+- 배터리와 관련된 각종 상황이 발생할 때 시스템에서는 앱에서 이런 상황을 인지할 수 있도록 브로드캐스트 인텐트를 발생해 줍니다.
+
 
 ### 19.1.4. 백그라운드 서비스 제한
 
