@@ -249,7 +249,8 @@ sendBroadcast(intent);
 Intent intent = new Intent(this, MyReceiver.class);
 sendBroadcast(intent);
 ```
--```java
+-
+```java
 registerReceiver(new MyReceiver(), new IntentFilter("com.example.ACTION_REGISTER_RECEIVER"));
 ```
 -
