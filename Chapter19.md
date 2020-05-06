@@ -109,7 +109,7 @@ unregisterReceiver(brOn);
 #### 전화 수신/발신
 - 사용자가 스마트폰에서 전화를 수신 또는 발신하는 상황은 스마트폰 관점에서 중요한 상황.
 - 개발자 앱이 전화 기능을 제공하지 않는다고 하더라도 이 상황을 감지해야 할 때가 있음.
-
+***
 - 우선 퍼미션 선언.
 ```xml
 <user-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
@@ -140,11 +140,12 @@ if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
 ```
 - 발신 전화번호는 intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)로 얻을 수 있음.
 - 수신 전화번호는 Bundle 객체를 통해 얻을 수 있음.
-
+***
 #### 배터리
 - 스마트폰에 USB 케이블 등으로 전원이 공급되고 있는 상황과 전원 공급이 끊어진 상황 등을 앱에서 인지해야 할 때도 있습니다.
 - 배터리와 관련된 각종 상황이 발생할 때 시스템에서는 앱에서 이런 상황을 인지할 수 있도록 브로드캐스트 인텐트를 발생해 줍니다.
 - 배터리와 관련된 브로드캐스트 인텐트의 action 문자열은 여러 가지입니다.
+
 문자열 | 의미
 | --- | --- |
 | android.intent.action.BATTERY_LOW | 스마트폰의 배터리가 낮은 상태가 되었을 때 |
@@ -160,17 +161,53 @@ registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_DISCONNEC
 
 - 여러 action 문자열을 등록하여 실행되는 브로드캐스트 리시버에서는 onReceive()함수에서 action 문자열을 추출하여 자신이 어떤 인텐트 정보로 인해 실행된 것인지 구분할 수 있습니다.
 ```java
-if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
-            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+@Override
+public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action.equals("android.intent.action.ACTION_POWER_CONNECTED")) {
+            // 
         }
-        else if (action.equals("android.intent.action.PHONE_STATE")) {
-            Bundle bundle = intent.getExtras();
-            String state = bundle.getString(TelephonyManager.EXTRA_STATE);
-            String phoneNumber = bundle.getString(Intent.EXTRA_PHONE_NUMBER);
+        else if (action.equals("android.intent.action.ACTION_POWER_DISCONNECTED")) {
+            //
         }
+    }
 ```
 
+- 스마트폰에서 배터리가 워낙 중요한 내용이므로 배터리와 관련된 이야기를 조금 더 살펴보겠습니다.
+- 앞에서 살펴본 배터리 상태 파악은 브로드캐스트 리시버를 이용한 이벤트 모델.
+- 어떨 때는 특정 코드(액티비티, 서비스)가 실행되면서 배터리 상황을 파악해야 할 때도 있습니다.
+```java
+IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+Intent batteryStatus = registerReceiver(null, ifilter);
+```
+- 위의 코드도 registerReceiver() 함수로 브로드캐스트 리시버를 등록하는 구문이지만, 브로드캐스트 리시버 객체 부분이 null.
+- 실제 개발자가 준비한 브로드캐스트 리시버를 등록하는 구문이 아니라, 시스템의 배터리 상태의 정보값만 얻기 위한 구문.
+- 이렇게 얻은 인텐트 객체에 다양한 배터리 정보가 담기게 됨.
+- 가장 많이 얻는 정보가 스마트폰에 전원이 공급되고 있는지에 대한 정보.
+
+- 다음은 현재 스마트폰에 전원이 공급되고 있는지를 파악하기 위한 구문.
+```java
+int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
+```
+- isCharging 값이 true면 전원이 공급되고 있는 상황.
+
+```java
+int chargePlug = batteryStatus.getInExtra(BatteryManager.EXTRA_PLUGGED, -1);
+boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+```
+- 전원이 공급되고 있을 때 USB를 이용하는 건지 아니면 AC를 이용하는 건지를 파악해야 할 때도 있음.
+
+```java
+int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+float batteryPct = (level / (float)scale) * 100;
+```
+- 스마트폰의 배터리가 몇 퍼센트 충전된 상황인지를 파악하는 구문.
+
 ### 19.1.4. 백그라운드 서비스 제한
+- 
 
 ## 19.2. 알림
 
