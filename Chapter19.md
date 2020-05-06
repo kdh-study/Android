@@ -219,12 +219,40 @@ float batteryPct = (level / (float)scale) * 100;
 - 일반적으로 BroadcastReceiver는 시스템의 특정 상황(부팅 완료, SMS 수신 등)을 파악하기 위해 많이 사용되며, 이때 시스템에서 발생시키는 인텐트에 의해 실행되므로 AndroidManifest.xml 파일에 암시적 방법으로 등록해 놓습니다.
 - 이 부분은 전혀 제한이 없으며 기존에 이용하던 방법대로 등록하여 사용할 수 있습니다.
 ```xml
-
+<receiver
+            android:name=".BootStartReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 ```
 - 
 ```xml
-
+<receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.ACTION_MY_RECEIVER" />
+            </intent-filter>
+        </receiver>
 ```
+-
+```java
+Intent intent = new Intent("com.example.ACTION_MY_RECEIVER");
+sendBroadcast(intent);
+```
+-
+```java
+Intent intent = new Intent(this, MyReceiver.class);
+sendBroadcast(intent);
+```
+-```java
+registerReceiver(new MyReceiver(), new IntentFilter("com.example.ACTION_REGISTER_RECEIVER"));
+```
+-
 
 ## 19.2. 알림
 
