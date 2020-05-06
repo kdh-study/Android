@@ -144,7 +144,31 @@ if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
 #### 배터리
 - 스마트폰에 USB 케이블 등으로 전원이 공급되고 있는 상황과 전원 공급이 끊어진 상황 등을 앱에서 인지해야 할 때도 있습니다.
 - 배터리와 관련된 각종 상황이 발생할 때 시스템에서는 앱에서 이런 상황을 인지할 수 있도록 브로드캐스트 인텐트를 발생해 줍니다.
+- 배터리와 관련된 브로드캐스트 인텐트의 action 문자열은 여러 가지입니다.
+문자열 | 의미
+| --- | --- |
+| android.intent.action.BATTERY_LOW | 스마트폰의 배터리가 낮은 상태가 되었을 때 |
+| android.intent.action.BATTERY_OKAY | 스마트폰 배터리가 낮은 상태에서 벗어날 때 |
+| android.intent.action.BATTERY_CHANGED | 스마트폰 배터리의 충전 상태가 변경되었을 때 |
+| android.intent.action.ACTION_POWER_CONNECTED | 케이블 등으로 외부 전원공급이 연결되었을 때 |
+| android.intent.action.ACTION_POWER_DISCONNECTED | 외부 전원공급이 끊어질 때 |
 
+```java
+registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_CONNECTED));
+registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_DISCONNECTED));
+```
+
+- 여러 action 문자열을 등록하여 실행되는 브로드캐스트 리시버에서는 onReceive()함수에서 action 문자열을 추출하여 자신이 어떤 인텐트 정보로 인해 실행된 것인지 구분할 수 있습니다.
+```java
+if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
+            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+        }
+        else if (action.equals("android.intent.action.PHONE_STATE")) {
+            Bundle bundle = intent.getExtras();
+            String state = bundle.getString(TelephonyManager.EXTRA_STATE);
+            String phoneNumber = bundle.getString(Intent.EXTRA_PHONE_NUMBER);
+        }
+```
 
 ### 19.1.4. 백그라운드 서비스 제한
 
