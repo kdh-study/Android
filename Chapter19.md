@@ -104,10 +104,44 @@ registerReceiver(brOn, new IntentFilter(Intent.ACTION_SCREEN_ON));
 ```java
 unregisterReceiver(brOn);
 ```
-- 동적으로 해제.
+- 동적으로 등록한 브로드캐스트리시버는 동적으로 해제도 가능.
 
 #### 전화 수신/발신
-- 사용자
+- 사용자가 스마트폰에서 전화를 수신 또는 발신하는 상황은 스마트폰 관점에서 중요한 상황.
+- 개발자 앱이 전화 기능을 제공하지 않는다고 하더라도 이 상황을 감지해야 할 때가 있음.
+
+- 우선 퍼미션 선언.
+```xml
+<user-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+        <user-permission android:name="android.permission.READ_PHONE_STATE"/>
+```
+- 각각 발신, 수신을 감지하는 퍼미션.
+
+```xml
+<receiver android:name=".MyReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+```
+- 발신 상황이 발생하면 시스템에서 android.intent.action.NEW_OUTGOING_CALL이라는 action 문자열로 브로드캐스트 인텐트를 발생해 줍니다.
+- 수신 상황이 발생하면 시스템에서 android.intent.action.PHONE_STATE라는 action 문자열로 브로드캐스트 인텐트를 발생해 줍니다.
+
+```java
+if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
+            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+        }
+        else if (action.equals("android.intent.action.PHONE_STATE")) {
+            Bundle bundle = intent.getExtras();
+            String state = bundle.getString(TelephonyManager.EXTRA_STATE);
+            String phoneNumber = bundle.getString(Intent.EXTRA_PHONE_NUMBER);
+        }
+```
+- 발신 전화번호는 intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)로 얻을 수 있음.
+- 수신 전화번호는 Bundle 객체를 통해 얻을 수 있음.
+
+
 
 #### 배터리
 - 사용자
