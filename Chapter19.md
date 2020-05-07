@@ -228,7 +228,10 @@ float batteryPct = (level / (float)scale) * 100;
             </intent-filter>
         </receiver>
 ```
-- 
+- 부팅 완료 시점에 실행될 BroadcastReceiver를 AndroidManifest.xml 파일에 등록한 것이고 암시적 방법으로 실행됨.
+- 위의 BroadcastReceiver는 부팅 완료 시점에 문제없이 잘 실행됨.
+- 제한이 걸린 부분은 앱에서 BroadcastReceiver를 실행하기 위해 암시적 방법으로 인텐트를 발생시키는 경우.
+***
 ```xml
 <receiver
             android:name=".MyReceiver"
@@ -239,21 +242,35 @@ float batteryPct = (level / (float)scale) * 100;
             </intent-filter>
         </receiver>
 ```
--
+- 위와 같이 AndroidManifest.xml 파일에 등록된 리시버가 있다고 가정.
+- 이를 앱의 코드에서 인텐트로 실행해 보겠습니다.
 ```java
 Intent intent = new Intent("com.example.ACTION_MY_RECEIVER");
 sendBroadcast(intent);
 ```
--
+- 암시적 방법으로 리시버를 실행하는 코드.
+- 그런데 Android Oreo부터는 위의 코드로는 리시버가 실행되지 않음.
+- 암시적 방법으로의 인텐트 발생은 허용하지 않겠다는 로그가 표시됨.
+***
+- 물론 위의 AndroidManifest.xml에 등록된 리시버는 명시적 방법으로 잘 실행됩니다.
 ```java
 Intent intent = new Intent(this, MyReceiver.class);
 sendBroadcast(intent);
 ```
--
+- 명시적 방법으로 실행한 예이며, 잘 실행됨.
+- 결국 개발자 코드에서 암시적 인텐트로 리시버 실행을 금지한 것인데, 완전히 금지한 것은 아님.
+- Android Oreo 변경사항의 주목적은 백그라운드 실행 제한.
+- 즉 리시버가 백그라운드에서 암시적인 방법으로 실행되는 것을 제한한 것.
+- 리시버가 백그라운드가 아니라면 암시적 인텐트로도 잘 실행됨.
+***
 ```java
 registerReceiver(new MyReceiver(), new IntentFilter("com.example.ACTION_REGISTER_RECEIVER"));
 ```
--
+- 위의 코드는 리시버가 AndroidManifest.xml 파일에 등록된 것이 아니라 코드에서 registerReceiver()함수를 이용해 등록한 예.
+- 즉 액티비티 같은 특정 컴포넌트가 실행되면서 등록되는 것.
+- 그러므로 리시버 혼자 백그라운드에서 실행되는 것이 아니며 특정 컴포넌트 작업과 관계되어 있음.
+- 그렇다면 백그라운드 실행으로 판단하지 않음.
+- 따라서 위와 같은 코드에서 registerReceiver()함수로 등록한 리시버는 암시적 인텐트로 실행할 수 있음.
 
 ## 19.2. 알림
 
