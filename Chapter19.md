@@ -273,10 +273,30 @@ registerReceiver(new MyReceiver(), new IntentFilter("com.example.ACTION_REGISTER
 - 따라서 위와 같은 코드에서 registerReceiver()함수로 등록한 리시버는 암시적 인텐트로 실행할 수 있음.
 
 ## 19.2. 알림
+- 알림은 앱의 각종 상황을 사용자에게 알릴 목적으로 이용하는 기능.
+- 보통은 액티비티 화면이 출력되어 사용자 화면에 보이고 있다면 각종 상황이나 데이터를 액티비티 화면에서 보여주면 되므로 액티비티에서는 알림이 자주 이용되지 않음.
+- 하지만 서비스 컴포넌트나 브로드캐스트 리시버에서는 화면으로 사용자에게 특정 상황이나 데이터를 보여줄 수 없으므로 알림 이용 비율이 높음.
 
 ### 19.2.1. 알림의 기본 구성
+- 안드로이드 버전이 변경되면서 크고 작은 내용이 계속 추가되었으며 Android Oreo에서는 NotificationChannel이라는 개념이 필수 구성요소로 추가됨.
+- 또한, 안드로이드 파이에서 Person이 추가되어 MessageStyle의 Notification을 띄우는 작업이 한결 쉬워짐.
+- 이처럼 내용이 자주 변경되거나 추가되는 경우 하위 호환성 문제가 생기기 마련.
+- 이를 위해 support 라이브러리 NotificationCompat 클래스를 제공.
+- 알림을 띄우기 위한 기본 클래스는 NotificationManager와 Notification입니다.
+클래스 | 내용
+| --- | --- |
+| NotificationManager | 알림을 시스템에 발생시키는 SystemService |
+| Notification | 알림 구성 정보를 가지는 객체 |
+| NotificationCompat.Builder | 알림을 다양한 정보로 생성 |
+| NotificationChannel | 알림의 관리 단위 |
+- 결국 Notification 객체에 각종 정보를 담고 이 객체를 NotificationManager로 시스템에 등록하는 구조.
+- 우선 NotificationManager를 getSystemService() 함수를 이용해 얻습니다.
+```java
+NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+```
 
 ### 19.2.2. NotificationChannel
+
 
 ### 19.2.3. 기본적인 알림 구성
 
