@@ -314,6 +314,7 @@ NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION
 ### 19.2.3. 기본적인 알림 구성
 - Builder의 각종 setter 함수를 이용하여 알림의 구성 정보를 명시해 주면 됨.
 - 다양한 정보를 담을 수 있는데, 우선 가장 기본적인 형태의 알림을 위한 구성을 보겠음.
+
 함수 | 내용
 | --- | --- |
 | setSmallIcon | 작은 아이콘 이미지 지정 |
