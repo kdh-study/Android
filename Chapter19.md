@@ -283,6 +283,7 @@ registerReceiver(new MyReceiver(), new IntentFilter("com.example.ACTION_REGISTER
 - 이처럼 내용이 자주 변경되거나 추가되는 경우 하위 호환성 문제가 생기기 마련.
 - 이를 위해 support 라이브러리 NotificationCompat 클래스를 제공.
 - 알림을 띄우기 위한 기본 클래스는 NotificationManager와 Notification입니다.
+
 클래스 | 내용
 | --- | --- |
 | NotificationManager | 알림을 시스템에 발생시키는 SystemService |
@@ -296,8 +297,32 @@ NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION
 ```
 
 ### 19.2.2. NotificationChannel
-
+- Notification 객체는 직접 생성되지 않으며 NotificationCompat.Builder로 생성.
+- Android Oreo부터는 Builder를 만드는 방법이 변경됨.
+- NotificationChannel에 의해서 Builder가 생성됨.
+- NotificationChannel은 일종의 알림에 대한 관리 단위로 생각하면 됨.
+***
+- 채널을 적용해 알림을 발생시키는 방법에 대해 살펴보겠습니다.
+- NotificationChannel은 API Level 26부터 제공되므로 하위 버전에서 실행되지 않게 Build.VERSION.SDK_INT를 이용하여 버전 분기 프로그램을 작성해야 함.
+```java
+NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+```
+- Builder를 이용하여 Notification을 만들고 NotificationManager로 알림을 발생시키는 구조는 동일.
+- API Level 26 이상의 폰을 목적으로 한다면 Builder 생성 시 NotificationChannel을 등록해 주어야 함.
+- builder = new NotificationCompat.Builder(this, channelId);에 의해 Builder가 만들어지므로 Builder 생성 이전에 위의 코드처럼 NotificationChannel을 준비하여 적용.
 
 ### 19.2.3. 기본적인 알림 구성
+- Builder의 각종 setter 함수를 이용하여 알림의 구성 정보를 명시해 주면 됨.
+- 다양한 정보를 담을 수 있는데, 우선 가장 기본적인 형태의 알림을 위한 구성을 보겠음.
+함수 | 내용
+| --- | --- |
+| setSmallIcon | 작은 아이콘 이미지 지정 |
+| setWhen | 시간 |
+| setContentTitle | 확장 내용의 타이틀 문자열 |
+| setContentText | 확장 내용의 본문 문자열 |
+| setDefaults | DEFAULT_SOUND, DEFAULT_VIBRATE, DEFAULT_LIGHTS을 함께 지정 가능 |
+| setAutoCancel | 터치 시 자동 삭제 여부, true 값이 지정되면 터치 시 삭제됨 |
+| setOngoing | 진행표시 여부, true 값이 설정되면 사용자가 손가락으로 밀어서 삭제 불가 |
 
 ### 19.2.4. 알림의 다양한 구성
+- 
