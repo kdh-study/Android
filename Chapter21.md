@@ -27,9 +27,80 @@
 - 직접 구현하기 때문에 보안상 문제가 되는 데이터를 제외하고 오픈하는 등의 작업이 가능.
 
 ### 21.1.2. 콘텐츠 프로바이더 작성법
+- 콘텐츠 프로바이더를 작성하는 방법은 안드로이드 DBMS프로그램과 유사.
+- 콘텐츠 프로바이더 내부에서 접근하는 데이터는 파일, 데이터베이스, Preference 혹은 메모리의 데이터.
+```java
+public class MyContentProvider extends ContentProvider {
+    public MyContentProvider() {
 
+    }
+
+    @Override
+    public boolean onCreate() { return false; }
+
+    @Nullable
+    @Override
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getType(@NonNull Uri uri) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        return null;
+    }
+
+    @Override
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+}
+```
+- ContentProvider 클래스를 상속받아 작성.
+- 위의 모든 함수를 재정의 해야 함.
+- 생명주기 함수는 onCreate() 함수 하나만 있으며, 최초에 한 번만 호출됨.
+- query(), insert(), update(), delete() 함수는 외부 앱에서 필요할 때 호출됨.
+- 이곳에서 적절한 데이터 획득, 저장, 수정, 삭제 작업을 하면 됨.
+- 데이터를 외부 앱에 전달하는 용도로만 쓰려면, insert(), update(), delete() 함수 부분을 비워두면 됨.
+***
+- 콘텐츠 프로바이더도 안드로이드 **컴포넌트이므로 AndroidManifest.xml에 등록**해서 사용해야 함.
+- 액티비티나 서비스, 브로드캐스트 리시버는 AndroidManifest.xml 파일에 각각 \<activity\>, \<service\>, \<receiver\> 태그로 등록할 때 생략할 수 없는 속성이 name뿐.
+- 하지만 콘텐츠 프로바이더는 \<provider\> 태그로 등록하는데 name 외에 authorities라는 속성을 꼭 정의해 주어야 함.
+```xml
+<provider
+            android:authorities="com.example.mycontentprovider"
+            android:name=".MyContentProvider"
+            android:enabled="true"
+            android:exported="true"></provider>
+```
+- authorities 속성값은 개발자 임의의 문자열이지만, **유일해야 함**.
+- 다른 앱의 콘텐츠 프로바이더와 같은 값이 대입되면 앱 자체가 사용자 스마트폰에 설치되지 않음.
 
 ### 21.1.3. 콘텐츠 프로바이더 이용
+- 안드로이드 컴퍼넌트 중 인텐트로 실행하는 컴포넌트는 액티비티와 서비스 그리고 브로드캐스트 리시버이며, **콘텐츠 프로바이더는 인텐트와 전혀 상관이 없음**.
+- 이유는 콘텐츠 프로바이더의 독특한 생명주기 때문.
+- 액티비티와 서비스, 브로드캐스트 리시버는 부팅 완료 시점부터 어느 앱에서 어떤 이름의 컴포넌트를 가지고 있다는 정보가 시스템에 등록되지만, 실제 객체가 생성되는 시점은 어디선가 그 컴포넌트를 이용하기 위해 인텐트를 발생시키는 순간.
+- 하지만 컨텐츠 프로바이더는 시스템에서 인지하는 순간 이용하지 않더라도 미리 생성해 놓습니다.
+- 따라서 스마트폰이 부팅되면 여러 앱의 모든 콘텐츠 프로바이더가 생성됨.
+- 외부 앱의 콘텐츠 프로바이더를 이용하는 곳에는 이렇게 **시스템에서 미리 생성해 놓은 콘텐츠 프로바이더 객체를 ContentResolver를 이용해 획득**하여 사용하면 됨.
+- ContentResolver는 콘텐츠 프로바이더로 생성된 객체들을 담고 있는 관리자 역할의 클래스로 이해하면 됨.
+- ContentResolver에는 모든 앱의 모든 콘텐츠 프로바이더가 등록되어 있음.
+- 이때 식별자로 이용되는 것이 Uri 객체, 그래서 콘텐츠 프로바이더를 흔히 "Uri 모델로 식별되어 이용되는 컴포넌트"라는 표현을 사용.
+- Uri 객체를 적절한 URL로 잘 만들어 주어야 하는데, 콘텐츠 프로바이더를 식별하기 위해 사용되는 URL은 규칙이 있음.
+```java
+content://com.example.test.Provider
+```
 
 
 ## 21.2. 구글 기본 앱의 콘텐츠 프로바이더 이용
