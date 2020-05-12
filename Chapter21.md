@@ -101,6 +101,21 @@ public class MyContentProvider extends ContentProvider {
 ```java
 content://com.example.test.Provider
 ```
+- 콘텐츠 프로바이더를 식별하기 위한 URL의 프로토콜명은 content를 이용.
+- Scheme : content, host : com.example.test.Provider, path : user/1
+- 'com.example.test.Provider' 문자열은 이용하고자 하는 콘텐츠 프로바이더가 자신의 AndroidManifest.xml 파일에 등록될 때 <provider> 태그의 authorities 속성값.
+- host 하위의 path 정보는 필수 요소가 이니며, 콘텐츠 프로바이더를 이용하는 곳에서 임의로 추가할 수 있는 정보.
+- path의 의미는 그 단어로 표현되는 모든 데이터를 지칭하게 되며 path의 끝부분이 숫자로 끝나면 id 값을 지칭하여 해당 id 값의 데이터를 지칭함.
+- path로 일정 데이터의 where 조건을 명시할 수 있지 않느냐는 의도, 그런 의미에서 path 값이 설정되면 데이터의 조건으로 사용할 것을 권장.
+```java
+Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+```
+- getContentResolver() 함수로 ContentResolver 객체를 획득하고 Uri 값을 첫 번째 매개변수로 주어, 어느 콘텐츠 프로바이더를 이용할 것인지 판단하게 됨.
+- 나머지 매개변수는 데이터 획들을 위한 조건.
+- query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder)
+- insert(@NonNull Uri uri, @Nullable ContentValues values)
+- delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs)
+- update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs)
 
 
 ## 21.2. 구글 기본 앱의 콘텐츠 프로바이더 이용
