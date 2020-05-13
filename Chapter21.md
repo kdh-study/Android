@@ -119,12 +119,55 @@ Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
 
 ## 21.2. 구글 기본 앱의 콘텐츠 프로바이더 이용
-
+- 스마트폰에 기본으로 설치된 앱 중 이용비율이 높은 주소록과 갤러리의 데이터를 이용하는 방법을 살펴보겠음.
+- 주소록, 갤러리 앱이 아닌 다른 어떤 앱이라도 모두 콘텐츠 프로바이더를 이용하는 방법이므로 작성 방법은 같으며 Uri 값만 다르게 설정하는 것.
 
 ### 21.2.1. 주소록 앱 데이터 획득
-
+- 앱을 개발할 때 외부 앱 연동의 대부분은 외부 앱의 화면을 실행하거나, 데이터를 이용하기 위함.
+- 화면 연동은 액티비티 실행이고, 인텐트를 살펴보았던 곳에서 다룸.
+- 기본으로 설치된 앱 중 데이터 연동에 가장 많이 이용되는 앱 중 하나가 주소록 앱.
+- 우선 인텐트로 주소록 앱의 목록 액티비티를 띄우고 다시 사용자가 선택한 홍길동의 전화번호 등을 콘텐츠 프로바이더를 이용하여 획득해야 함.
+***
+- 퍼미션 등록이 필요.
+```xml
+<uses-permission android:name="android.permission.READ_CONTACTS"/>
+```
+- 인텐트를 발생시켜 주소록의 목록 액티비티를 띄워야 함.
+```java
+Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(Uri.parse("content://com.android.contacts/data/phones"));
+        startActivityForResult(intent, 10);
+```
+- 사용자가 목록 화면에서 홍길동을 눌렀을 때 화면이 자동으로 되돌아와야 하므로 **startActivityForResult()** 함수를 이용.
+- startActivityForResult() 함수로 인해 화면이 다시 되돌아올 때 자동으로 호출되는 onActivityResult()함수에서 콘텐츠 프로바이더를 이용해 구체적으로 원하는 데이터를 획득.
+```java
+String id = Uri.parse(data.getDataString()).getLastPathSegment();
+```
+- 사용자가 선택한 홍길동의 결과를 받는 코드.
+- 식별자 값만 넘어옴.
+- 데이터가 너무 많기 때문에 식별자 값만 넘겨 받는데, 이 값을 조건으로 구체적으로 원하는 데이터를 다시 주소록 쪽에 요청해야 함.
+- 이때 콘텐츠 프로바이더가 이용됨.
+- URL 형태로 전달되며, **URL의 맨 마지막 단어가 식별자 값**임.
+```java
+Cursor cursor = getContentResolver().query(
+                ContactsContract.Data.CONTENT_URI,
+                new String[] {
+                        ContactsContract.Contacts.DISPLAY_NAME
+                },
+                ContactsContract.Data._ID + "=" + id, null, null);
+```
+- 첫 번째, ContactsContract.Data.CONTENT_URI를 지정하여 주소록의 콘텐츠 프로바이더를 식별.
+- 두 번째, 획득하고자 하는 데이터를 문자열 배열로 명시.
+- 세 번째, where 조건으로 홍길동의 식별자 값을 지정.
+***
+- Cursor를 이용하여 데이터를 획득하는 구문은 안드로이드 DBMS 프로그램과 차이가 없음.
+```java
+cursor.moveToFirst();
+String name = cursor.getString(0);
+```
 
 ### 21.2.2.  갤러리 앱 데이터 획득
+- 
 
 
 ## 21.3. 갤러리 앱 연동과 이미지 이용을 위한 라이브러리
