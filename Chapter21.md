@@ -174,13 +174,34 @@ String name = cursor.getString(0);
 - 여러 개를 선택할 수도 있으므로 데어티를 받는 방법에도 고민이 있음.
 - 버전에 따른 변경사항도 있음.
 ***
+#### API Level 16 하위 버전
 - API Level 16 이전까지는 사진 하나만 선택할 수 있었음.
 - 여러 장을 선택하게 하려면 개발자가 이 화면을 직접 만들어 적용해야 했음.
 - 또한 여러 장 선택되었을 때 데이터를 받는 방법도 API Level 19부터 변경됨.
 - 또한 화면에 ImageView 등을 이용하여 출력할 거라면 OOM(OutOfMemoryException)문제를 꼭 고려해서 작성해야 함.
   - 14장에서 다룸.
-
-
+```java
+if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            // JELLY_BEAN 하위에서는 하나만 선택하게..
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, 20);
+        }
+```
+- onActivityResult() 함수 내부의 코드로 API Level 16 하위 버전일 때의 처리 코드는 다음과 같음.
+```java
+// JELLY_BEAN 이전 버전 하나만 선택해서 들어오는 경우.
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(data.getData(), projection, null, null, null);
+        cursor.moveToFirst();
+        String filePath = cursor.getString(0);
+```
+- query()함수의 세 번째 매개변수가 where 조건인데, 이 값을 null로 지정하였음, 조건이 없는데 어떻게 사용자가선택한 파일에 대한 정보가 넘어오냐면..
+- 첫 번째 매개변수의  Uri 객체에 설정된 URL 경로에 사용자가 선택한 이미지의 식별자 값이 포함되어 있기 때문.
+**
+#### API Level 16 이상 버전.
+- 
 
 ## 21.3. 갤러리 앱 연동과 이미지 이용을 위한 라이브러리
 
