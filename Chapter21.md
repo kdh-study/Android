@@ -293,7 +293,7 @@ String docId = DocumentsContract.getDocumentId(uri);
 - 이 문자열에서 우리에게 필요한 정보는 "document" 뒤에 있는 단어.
 - 이를 String docId = DocumentsContract.getDocumentId(uri); 구문으로 추출.
 - 이렇게 추출하면 image:3A35260 단어만 추출되며, 이를 다시 String[] split = docId.split(":");구문을 사용하여, 콜론 구분자로 문자열을 잘라서 앞단어느 데이터의 타입, 뒷 단어는 데이터의 식별자로 사용됨.
-- API Level 19 버전부터 데이터의 Uri 값을 이러한 형식으로 표현하는 이유는 이미지 이외에 audio, video 타입의 데이터도 모두 같은 형태로 표현하며, 데이터 식별자 이외에 데이터 타입도 Uri 객체에 답기 위한 의도.
+- API Level 19 버전부터 데이터의 Uri 값을 이러한 형식으로 표현하는 이유는 이미지 이외에 audio, video 타입의 데이터도 모두 같은 형태로 표현하며, 데이터 식별자 이외에 데이터 타입도 Uri 객체에 담기 위한 의도.
 
 ## 21.3. 갤러리 앱 연동과 이미지 이용을 위한 라이브러리
 
