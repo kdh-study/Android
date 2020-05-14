@@ -265,7 +265,28 @@ String selection = MediaStore.Images.Media._ID + "=?";
 #### 도큐먼트식 이미지 파일 경로 획득.
 - 결과가 도큐먼트식 경로로 넘어올 때 사용자가 선택한 이미지의 파일 경로를 콘텐츠 프로바이더를 이용하여 획득하는 구문은 다음과 같음.
 ```java
-
+String docId = DocumentsContract.getDocumentId(uri);
+        String[] split = docId.split(":");
+        String type = split[0];
+        Uri contentUri = null;
+        if ("image".equals(type)) {
+            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        }
+        
+        String selection = MediaStore.Images.Media._ID + "=?";
+        String[] selectionArgs = new String[]{split[1]};
+        
+        String column = "_data";
+        String[] projection = {column};
+        
+        Cursor cursor = context.getContentResolver().query(contentUri, projection, selection, selectionArgs, null);
+        
+        String filePath = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(column);
+            filePath = cursor.getString(column_index);
+        }
+        cursor.close();
 ```
 - 결과가 도큐먼트식 경로로 넘어올 때 Uri 값은 다음과 같음.
   - content://com.android.providers.media.documents/document/image:3A35260
