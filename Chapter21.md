@@ -201,7 +201,74 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 - 첫 번째 매개변수의  Uri 객체에 설정된 URL 경로에 사용자가 선택한 이미지의 식별자 값이 포함되어 있기 때문.
 **
 #### API Level 16 이상 버전.
-- 
+- 사용자의 스마트폰 버전이 Build.VERSION_CODES.JELLY_BEAN 이상일 때는 여러 장의 이미지를 선택할 수 있으므로 인텐트의 Extra 정보로 **Intent.EXTRA_ALLOW_MULTIPLE** 값을 true 지정하여 인텐트를 발생.
+```java
+Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 30);
+```
+***
+- 사용자가 이미 목록 화면에서 여러 장을 한꺼번에 선택하면, 해당정보가 ClipData 타입으로 전달됨.
+- 하나만 선택하면 사용자가 선택한 이미지 정보를 포함한 Uri 값이 그대로 전달됨.
+```java
+if (data.getClipData() != null) {
+            ClipData clipData = data.getClipData();
+            for (int i = 0; i < clipData.getItemCount(); i++) {
+                ClipData.Item item = clipData.getItemAt(i);
+                Uri uri = item.getUri();
+                
+                if ("com.android.providers.media.documents".equals(uri.getAuthority()) && Build.VERSION.SDK_INT >= 19) {
+                    
+                }
+                else if ("external".equals(uri.getPathSegments().get(0))) {
+                    
+                }
+                else {
+                    
+                }
+            }
+        }
+```
+- 그리고 데이터가 ClipData 타입으로 전달되었을 때 API Level 19부터 결과 데이터의 Uri 표현식이 이전 버전과 달라져서 이 또한 구분해서 처리해 주어야 함.
+- 도큐먼트식 경로.
+  - content://com.android.providers.media.documents/document/image:3A35260
+- 세그먼트식 경로.
+  - content://media/external/images/media/...
+- 19 버전부터는 ClipData에 포함된 이미지으 Uri 값이 도큐먼트식으로 전달됨.
+- 하위 버전이나 19 버전 이상의 스마트폰이더라도 스마트폰에 따라 Uri 값이 세그먼트식으로 전달될 수 있음.
+- 이 책에서는 편의를 위해 각각의 경로를 '도큐먼트식', '세그먼트식' 경로라고 칭하겠음.
+- Uri 값을 형식에 따라 구분해서 처리해야 함.
+***
+#### 세그먼트식 이미지 파일 경로 획득.
+- 결과가 세그먼트식 경로로 넘어올 때 사용자가 선택한 이미지의 파일 경로를 콘텐츠 프로바이더를 이용하여 획득하는 구문은 다음과 같음.
+```java
+String selection = MediaStore.Images.Media._ID + "=?";
+        String[] selectionArgs = new String[] { uri.getLastPathSegment() };
+        
+        String column = "_data";
+        String[] projection = { column };
+        
+        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, null);
+        
+        String filePath = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(column);
+            filePath = cursor.getString(column_index);
+        }
+        cursor.close();
+```
+- Uri 값의 맨 마지막 세그먼트가 사용자가 선택한 이미지의 식별자.
+- 코드처럼 식별자 값을 획득하여 query() 함수를 호출할 때 where 조건의 데이터로 사용하면 됨.
+***
+#### 도큐먼트식 이미지 파일 경로 획득.
+- 결과가 도큐먼트식 경로로 넘어올 때 사용자가 선택한 이미지의 파일 경로를 콘텐츠 프로바이더를 이용하여 획득하는 구문은 다음과 같음.
+```java
+
+```
+- 결과가 도큐먼트식 경로로 넘어올 때 Uri 값은 다음과 같음.
+  - content://com.android.providers.media.documents/document/image:3A35260
 
 ## 21.3. 갤러리 앱 연동과 이미지 이용을 위한 라이브러리
 
