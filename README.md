@@ -23,6 +23,9 @@
 ### Week 8 (05/14)
 - **21장 :** [콘텐츠 프로바이더](https://github.com/kdh-study/Android/blob/master/Chapter21.md)
 
+### Week 9 (05/28)
+- **28장 :** [뷰모델과 라이브데이터](https://github.com/kdh-study/Android/blob/master/Chapter28.md)
+
 
 ### 스터디 링크 
 - [허브](https://github.com/hotan486/android_study_)
