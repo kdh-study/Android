@@ -11,8 +11,10 @@
 
 ## 28.1. 뷰모델
 ### 28.1.1. ACC와 뷰모델
+![final-architecture](https://user-images.githubusercontent.com/62408252/82744077-c7ca0f80-9dae-11ea-882b-b688e040c84c.png)
+
 ### 28.1.2. ViewModel 활용
-![](https://user-images.githubusercontent.com/62408252/82744023-217e0a00-9dae-11ea-83d3-3df15d8c8b31.png)
+![viewmodel-lifecycle](https://user-images.githubusercontent.com/62408252/82744023-217e0a00-9dae-11ea-83d3-3df15d8c8b31.png)
 
 ## 28.2. 라이브데이터
 ### 28.2.1. 라이브데이터와 옵서버
