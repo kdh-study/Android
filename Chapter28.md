@@ -5,7 +5,7 @@
   - [28.1.2.](#2812-ViewModel-활용) ViewModel 활용
   
 [28.2.](#282-라이브데이터) 라이브데이터
-  - [28.2.1.](#2821-라이브데이터와-옵서버) 라이브데이터와 옵서버
+  - [28.2.1.](#2821-라이브데이터와-옵저버) 라이브데이터와 옵저버
   - [28.2.2.](#2822-커스텀-라이브데이터) 커스텀 라이브데이터
   - [28.2.3.](#2823-postValue-vs-setValue-함수) postValue vs setValue 함수
 
@@ -17,6 +17,9 @@
 ![viewmodel-lifecycle](https://user-images.githubusercontent.com/62408252/82744023-217e0a00-9dae-11ea-83d3-3df15d8c8b31.png)
 
 ## 28.2. 라이브데이터
-### 28.2.1. 라이브데이터와 옵서버
+### 28.2.1. 라이브데이터와 옵저버
+![liveData](https://user-images.githubusercontent.com/62408252/82744205-2d6acb80-9db0-11ea-9570-a16dbd6b8c0e.png)
+
 ### 28.2.2. 커스텀 라이브데이터
+
 ### 28.2.3. postValue vs setValue 함수
